@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="WotLK_TalentCalculator_3._3._5.Controls.TalentTooltipControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent"
+             IsHitTestVisible="False"
+             TextElement.FontFamily="Verdana">
+
+    <Border Background="#E6050512" 
+            BorderBrush="#FF7D7D7D" 
+            BorderThickness="1" 
+            CornerRadius="3"
+            Padding="8,8,8,6"
+            MaxWidth="320">
+        <StackPanel Orientation="Vertical">
+
+            <TextBlock x:Name="TxtTitle" 
+                       Foreground="White" 
+                       FontSize="14" 
+                       FontWeight="Normal" 
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,2"/>
+
+            <TextBlock x:Name="TxtRank" 
+                       Foreground="White" 
+                       FontSize="12" 
+                       Margin="0,0,0,6"/>
+
+            <TextBlock x:Name="TxtReqWarning" 
+                       Foreground="#FFFF2020" 
+                       FontSize="12" 
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed"
+                       Margin="0,0,0,4"/>
+
+            <TextBlock x:Name="TxtRowWarning" 
+                       Foreground="#FFFF2020" 
+                       FontSize="12" 
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed"
+                       Margin="0,0,0,6"/>
+
+            <Grid x:Name="GridSpellMeta" Margin="0,0,0,6" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="GridLine1" Grid.Row="0" Margin="0,0,0,2" Visibility="Collapsed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="TxtLine1Left" Grid.Column="0" Foreground="White" FontSize="12" TextWrapping="Wrap" Margin="0,0,15,0"/>
+                    <TextBlock x:Name="TxtLine1Right" Grid.Column="1" Foreground="White" FontSize="12" HorizontalAlignment="Right" Visibility="Collapsed"/>
+                </Grid>
+
+                <Grid x:Name="GridLine2" Grid.Row="1" Visibility="Collapsed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="TxtLine2Left" Grid.Column="0" Foreground="White" FontSize="12" TextWrapping="Wrap" Margin="0,0,15,0"/>
+                    <TextBlock x:Name="TxtLine2Right" Grid.Column="1" Foreground="White" FontSize="12" HorizontalAlignment="Right" Visibility="Collapsed"/>
+                </Grid>
+            </Grid>
+
+            <TextBlock x:Name="TxtCurrentDesc" 
+                       Foreground="#FFFFD100" 
+                       FontSize="12" 
+                       TextWrapping="Wrap"/>
+
+            <TextBlock x:Name="TxtNextRankHeader" 
+                       Text="Next rank:" 
+                       Foreground="White" 
+                       FontSize="12" 
+                       Visibility="Collapsed"
+                       Margin="0,8,0,2"/>
+
+            <TextBlock x:Name="TxtNextDesc" 
+                       Foreground="#FFFFD100" 
+                       FontSize="12" 
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed"/>
+
+            <Grid Margin="0,8,0,0">
+                <TextBlock x:Name="TxtClickLearn" 
+                           Text="Click to learn" 
+                           Foreground="#FF20FF20" 
+                           FontSize="11" 
+                           HorizontalAlignment="Left"
+                           Visibility="Collapsed"/>
+
+                <TextBlock x:Name="TxtRightClickUnlearn" 
+                           Text="Right-click to unlearn" 
+                           Foreground="#FFFF2020" 
+                           FontSize="11" 
+                           HorizontalAlignment="Right"
+                           Visibility="Collapsed"/>
+            </Grid>
+
+        </StackPanel>
+    </Border>
+</UserControl>

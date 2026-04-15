@@ -1,0 +1,209 @@
+﻿<Window x:Class="WotLK_TalentCalculator_3._3._5.ProfileManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Build Profiles"
+        Height="560" Width="460"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="PanelBg"    Color="#FF13132A"/>
+        <SolidColorBrush x:Key="HeaderBg"   Color="#FF09091A"/>
+        <SolidColorBrush x:Key="BorderDark" Color="#FF2A2A45"/>
+        <SolidColorBrush x:Key="GoldBrush"  Color="#FFFFD100"/>
+        <SolidColorBrush x:Key="TextDim"    Color="#FF888899"/>
+        <SolidColorBrush x:Key="ResetRed"   Color="#FFCC3333"/>
+        <SolidColorBrush x:Key="AppBorder"  Color="#FF34495E"/>
+        <SolidColorBrush x:Key="TitleBarBg" Color="#FF141414"/>
+
+        <!-- TextBox dark style -->
+        <Style x:Key="DarkTextBox" TargetType="TextBox">
+            <Setter Property="Background"            Value="#FF1A1A30"/>
+            <Setter Property="Foreground"            Value="#FFCCCCDD"/>
+            <Setter Property="CaretBrush"            Value="White"/>
+            <Setter Property="BorderBrush"           Value="#FF2A2A45"/>
+            <Setter Property="BorderThickness"       Value="1"/>
+            <Setter Property="Padding"               Value="8,5"/>
+            <Setter Property="FontSize"              Value="12"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="SelectionBrush"        Value="#FF3A3A6A"/>
+        </Style>
+
+        <!-- Hover text button style -->
+        <Style TargetType="TextBlock" x:Key="HoverGold">
+            <Setter Property="Foreground" Value="{StaticResource GoldBrush}"/>
+            <Setter Property="Cursor"     Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="HoverRed">
+            <Setter Property="Foreground" Value="{StaticResource ResetRed}"/>
+            <Setter Property="Cursor"     Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#FF23313F"
+            BorderBrush="{StaticResource AppBorder}"
+            BorderThickness="2" CornerRadius="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- ── Title bar ──────────────────────────────── -->
+            <Grid Grid.Row="0" Background="{StaticResource TitleBarBg}"
+                  MouseLeftButtonDown="TitleBar_MouseDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Build Profiles"
+                           Foreground="{StaticResource GoldBrush}"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           Margin="12,0,0,0"/>
+
+                <TextBlock Grid.Column="1"
+                           Text="✕" Foreground="White"
+                           FontSize="14" FontWeight="Bold"
+                           Padding="15,6" Cursor="Hand"
+                           MouseLeftButtonDown="BtnClose_Click">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource ResetRed}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <!-- ── Content ───────────────────────────────── -->
+            <Grid Grid.Row="1" Margin="12,10,12,12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- aktif build bilgisi -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- kaydet satırı -->
+                    <RowDefinition Height="10"/>
+                    <!-- boşluk -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- liste başlığı -->
+                    <RowDefinition Height="*"/>
+                    <!-- profil listesi -->
+                </Grid.RowDefinitions>
+
+                <!-- Aktif build bilgisi -->
+                <Border Grid.Row="0"
+                        Background="{StaticResource HeaderBg}"
+                        BorderBrush="{StaticResource BorderDark}"
+                        BorderThickness="1"
+                        Padding="10,7"
+                        Margin="0,0,0,6">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Aktif build:  "
+                                   Foreground="{StaticResource TextDim}"
+                                   FontSize="12"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="TxtActiveInfo"
+                                   Foreground="White"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Kaydet satırı -->
+                <Border Grid.Row="1"
+                        Background="{StaticResource PanelBg}"
+                        BorderBrush="{StaticResource BorderDark}"
+                        BorderThickness="1"
+                        Padding="10,8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="TxtName"
+                                 Grid.Column="0"
+                                 Style="{StaticResource DarkTextBox}"
+                                 MaxLength="40"
+                                 KeyDown="TxtName_KeyDown"/>
+
+                        <!-- Kaydet butonu -->
+                        <Border Grid.Column="2"
+                                Background="#FF1E2D3A"
+                                BorderBrush="{StaticResource GoldBrush}"
+                                BorderThickness="1"
+                                Padding="14,5"
+                                Cursor="Hand"
+                                MouseLeftButtonUp="BtnSave_Click">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FF2A3D4E"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock Text="Kaydet"
+                                       Foreground="{StaticResource GoldBrush}"
+                                       FontSize="12" FontWeight="SemiBold"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Liste başlığı -->
+                <Border Grid.Row="3"
+                        Background="{StaticResource HeaderBg}"
+                        BorderBrush="{StaticResource BorderDark}"
+                        BorderThickness="1,1,1,0"
+                        Padding="10,5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="TxtListHeader"
+                                   Text="Kayıtlı Buildler"
+                                   Foreground="{StaticResource TextDim}"
+                                   FontSize="11"/>
+                        <TextBlock x:Name="TxtCount"
+                                   Grid.Column="1"
+                                   Foreground="{StaticResource TextDim}"
+                                   FontSize="11"/>
+                    </Grid>
+                </Border>
+
+                <!-- Profil listesi -->
+                <Border Grid.Row="4"
+                        BorderBrush="{StaticResource BorderDark}"
+                        BorderThickness="1">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel x:Name="ProfileListPanel"/>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

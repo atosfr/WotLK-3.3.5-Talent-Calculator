@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="WotLK_TalentCalculator_3._3._5.Controls.GlyphTooltipControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent"
+             IsHitTestVisible="False"
+             TextElement.FontFamily="Verdana">
+
+    <Border Background="#E6050512" 
+            BorderBrush="#FF7D7D7D" 
+            BorderThickness="1" 
+            CornerRadius="3"
+            Padding="8,8,8,6"
+            x:Name="TooltipBorder">
+        <StackPanel Orientation="Vertical">
+
+            <TextBlock x:Name="TxtTitle" Foreground="White" FontSize="14" FontWeight="Normal" TextWrapping="Wrap" Margin="0,0,0,2"/>
+            <TextBlock x:Name="TxtType" Foreground="#FF71D5FF" FontSize="12" Margin="0,0,0,6"/>
+            <TextBlock x:Name="TxtDesc" Foreground="#FFFFD100" FontSize="12" TextWrapping="Wrap" Margin="0,0,0,6"/>
+            <TextBlock x:Name="TxtInstruction" FontSize="12" TextWrapping="Wrap"/>
+
+        </StackPanel>
+    </Border>
+</UserControl>
