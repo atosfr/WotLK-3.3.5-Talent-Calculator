@@ -17,6 +17,18 @@ Please create a bug report or feature request via the Issues tab.
 
 If you would like to fix a bug yourself, feel free to Fork the repository, make your changes, and submit a Pull Request.
 
+### 📸 Screenshots
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/eef682d7-ac33-4e51-9ec3-18c62dc11afa" width="700" alt="Main Interface" />
+  <br>
+  <em>The classic WotlkDB-style interface on your desktop.</em>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1bc7dcf6-195c-441d-875b-de7a4c6fb849" width="400" alt="Talent Detail" />
+</p>
+
 # 📥 Download
 You can download the latest version of the application from the link below:
 
