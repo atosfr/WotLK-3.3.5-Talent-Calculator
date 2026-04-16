@@ -20,7 +20,7 @@ If you would like to fix a bug yourself, feel free to Fork the repository, make 
 # 📥 Download
 You can download the latest version of the application from the link below:
 
-[![Direct Download](https://img.shields.io/badge/Download-Direct%20Link-brightgreen?style=for-the-badge&logo=github)](https://github.com/atosfr/WotLK-3.3.5-Talent-Calculator/releases/download/v1.0.0/WotLK.Talent.Calculator.3.3.5.rar)
+[![Direct Download](https://img.shields.io/badge/Download-Direct%20Link-brightgreen?style=for-the-badge&logo=github)](https://github.com/atosfr/WotLK-3.3.5-Talent-Calculator/releases/download/v1.1.0/WotLK.Talent.Calculator.3.3.5.zip)
 
 ---
 *Note: Simply extract the RAR file and run the `.exe` file. No installation required.*
