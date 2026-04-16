@@ -24,9 +24,11 @@ If you would like to fix a bug yourself, feel free to Fork the repository, make 
   <br>
   <em>The classic WotlkDB-style interface on your desktop.</em>
 </p>
-
+<br>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/1bc7dcf6-195c-441d-875b-de7a4c6fb849" width="400" alt="Talent Detail" />
+  <br>
+  <em>Includes a profile page to save and manage your talent builds.</em>
 </p>
 
 # 📥 Download
