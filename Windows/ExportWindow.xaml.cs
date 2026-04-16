@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using System.Threading.Tasks;
 
-namespace WotLK_TalentCalculator_3._3._5
+namespace WotLK_TalentCalculator_3._3._5.Windows
 {
     public partial class ExportWindow : Window
     {

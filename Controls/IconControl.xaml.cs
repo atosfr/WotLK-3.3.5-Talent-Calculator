@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using WotLK_TalentCalculator_3._3._5.Services;
 
 namespace WotLK_TalentCalculator_3._3._5.Controls
 {
@@ -16,10 +17,10 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
 
         public IconControl PrerequisiteTalent { get; set; }
 
-        // --- CROPPED BİTMAP CACHE ---
-        // SpriteSheetPath veya IconIndex set edildiğinde bu ikisi bir kez üretilir.
-        // IsActive değiştikçe RefreshIcon, artık crop yapmak yerine sadece
-        // hazır referansı PART_Icon.Source'a atar — sıfır allocation.
+        // --- CROPPED BITMAP CACHE ---
+        // Once SpriteSheetPath or IconIndex is set, these two are generated once.
+        // As IsActive changes, RefreshIcon no longer performs cropping; it simply 
+        // assigns the ready reference to PART_Icon.Source — zero allocation.
         private CroppedBitmap _cropActive;
         private CroppedBitmap _cropInactive;
 
@@ -57,22 +58,24 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
             PART_BubbleImage.Source = AssetManager.Bubble;
         }
 
-        // SpriteSheetPath veya IconIndex değiştiğinde crop'ları yeniden üret, sonra ekranı yenile
+        // SpriteSheetPath or IconIndex change logic:
+        // Regenerate crops when SpriteSheetPath or IconIndex changes, then refresh the screen.
         private static void OnIconSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var ctrl = (IconControl)d;
-            ctrl.BuildCrops();   // Önce crop cache'ini güncelle
-            ctrl.RefreshAll();   // Sonra UI'ı yenile
+            ctrl.BuildCrops();
+            ctrl.RefreshAll();
         }
 
-        // Diğer property değişimlerinde sadece UI'ı yenile (crop'lar zaten hazır)
+        // State change logic:
+        // For other property changes, only refresh the UI (crops are already prepared).
         private static void OnStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
             => ((IconControl)d).RefreshAll();
 
         /// <summary>
-        /// Sprite sheet'ten aktif (row=0) ve pasif (row=36) crop'ları üretir.
-        /// Bu metot yalnızca SpriteSheetPath veya IconIndex değiştiğinde çağrılır.
-        /// IsActive her değiştiğinde bitmap crop yapmak yerine hazır referansı kullanırız.
+        /// Generates active (row=0) and inactive (row=36) crops from the sprite sheet.
+        /// This method is called only when SpriteSheetPath or IconIndex changes.
+        /// We use prepared references instead of performing a bitmap crop every time IsActive changes.
         /// </summary>
         private void BuildCrops()
         {
@@ -81,22 +84,22 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
 
             if (string.IsNullOrWhiteSpace(SpriteSheetPath) || IsClassIcon) return;
 
-            var sheet = AssetManager.LoadBitmap(SpriteSheetPath); // Cache'den gelir, disk okuması yok
+            var sheet = AssetManager.LoadBitmap(SpriteSheetPath); // Load from cache, no disk I/O
             if (sheet == null) return;
 
             int col = IconIndex * IconSize;
 
-            // Sınır kontrolü — hatalı JSON verisi varsa crash'i önle
+            // Boundary check — prevents crash if JSON data is invalid
             if (col < 0 || col + IconSize > sheet.PixelWidth) return;
 
-            // Aktif ikon: sprite sheet'in üst yarısı (row = 0)
+            // Active icon: top half of the sprite sheet (row = 0)
             if (IconSize <= sheet.PixelHeight)
             {
                 _cropActive = new CroppedBitmap(sheet, new Int32Rect(col, 0, IconSize, IconSize));
                 _cropActive.Freeze();
             }
 
-            // Pasif (kararmış) ikon: sprite sheet'in alt yarısı (row = IconSize)
+            // Passive (darkened) icon: bottom half of the sprite sheet (row = IconSize)
             if (IconSize * 2 <= sheet.PixelHeight)
             {
                 _cropInactive = new CroppedBitmap(sheet, new Int32Rect(col, IconSize, IconSize, IconSize));
@@ -108,12 +111,12 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
         {
             if (IsClassIcon)
             {
-                // Sınıf ikonu tek resim — crop gerekmez, LoadBitmap cache'den döner
+                // Class icon is a single image — no crop needed, LoadBitmap returns from cache
                 PART_Icon.Source = AssetManager.LoadBitmap(SpriteSheetPath);
                 return;
             }
 
-            // Hazır crop referansını ata — yeni allocation yok
+            // Assign ready crop reference — no new allocation
             PART_Icon.Source = IsActive ? _cropActive : _cropInactive;
         }
 

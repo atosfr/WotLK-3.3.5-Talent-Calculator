@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using WotLK_TalentCalculator_3._3._5.Controls;
 using WotLK_TalentCalculator_3._3._5.Models;
 
-namespace WotLK_TalentCalculator_3._3._5
+namespace WotLK_TalentCalculator_3._3._5.Windows
 {
     public partial class GlyphDialogWindow : Window
     {
@@ -91,7 +89,7 @@ namespace WotLK_TalentCalculator_3._3._5
             return border;
         }
 
-        // ── Arama filtresi ──
+        // ── Search filter ──
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             var query = TxtSearch.Text.Trim().ToLowerInvariant();
@@ -109,7 +107,7 @@ namespace WotLK_TalentCalculator_3._3._5
             BuildList(filtered);
         }
 
-        // ── None seçeneği ──
+        // ── "None" option ──
         private void BtnNone_Click(object sender, MouseButtonEventArgs e)
         {
             SelectedGlyph = null;

@@ -2,12 +2,13 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using WotLK_TalentCalculator_3._3._5.Services;
 
 namespace WotLK_TalentCalculator_3._3._5.Controls
 {
     public partial class SmallIconControl : UserControl
     {
-        // YENİ: XAML Binding'i için DependencyProperty
+        // DependencyProperty for XAML Binding
         public static readonly DependencyProperty IconPathProperty =
             DependencyProperty.Register("IconPath", typeof(string), typeof(SmallIconControl),
             new PropertyMetadata(null, OnIconPathChanged));

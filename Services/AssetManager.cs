@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WotLK_TalentCalculator_3._3._5.Models;
 
-namespace WotLK_TalentCalculator_3._3._5
+namespace WotLK_TalentCalculator_3._3._5.Services
 {
     public static class AssetManager
     {
         public static string BaseDir => AppDomain.CurrentDomain.BaseDirectory;
 
-        // ── Dosya yolları ────────────────────────────────────────────────────
+        // ── File Paths ────────────────────────────────────────────────────
         public static string JsonPath => Path.Combine(BaseDir, "Talents.json");
         public static string SavePath => Path.Combine(BaseDir, "SavedBuild.json");
         public static string ProfilesPath => Path.Combine(BaseDir, "Profiles.json");
@@ -21,7 +19,7 @@ namespace WotLK_TalentCalculator_3._3._5
         // ── Bitmap cache ─────────────────────────────────────────────────────
         private static readonly Dictionary<string, BitmapImage> _cache = new();
 
-        // ── Dinamik yol üreticileri ──────────────────────────────────────────
+        // ── Dynamic Path Generators ──────────────────────────────────────────
         public static string GetClassIconPath(string classId) =>
             Path.Combine(BaseDir, "Image", "Icons", "Classes", $"class_{classId}.jpg");
 
@@ -40,7 +38,7 @@ namespace WotLK_TalentCalculator_3._3._5
         private static string GetArrowPath(string fileName) =>
             Path.Combine(BaseDir, "Image", "Icons", "Arrows", fileName);
 
-        // ── Ortak görseller ──────────────────────────────────────────────────
+        // ── Common Assets ──────────────────────────────────────────────────
         public static DescriptionsDb Descriptions { get; private set; }
 
         public static BitmapImage ArrowDown { get; private set; }
@@ -114,14 +112,17 @@ namespace WotLK_TalentCalculator_3._3._5
         public static BitmapImage LoadBitmap(string path)
         {
             if (string.IsNullOrEmpty(path) || !File.Exists(path)) return null;
+
+            // Check if image is already in cache to avoid redundant disk I/O
             if (_cache.TryGetValue(path, out var cached)) return cached;
 
+            // ... initialization ...
             var bmp = new BitmapImage();
             bmp.BeginInit();
             bmp.UriSource = new Uri(path, UriKind.Absolute);
             bmp.CacheOption = BitmapCacheOption.OnLoad;
             bmp.EndInit();
-            bmp.Freeze();
+            bmp.Freeze();   // Make cross-thread accessible and read-only
 
             _cache[path] = bmp;
             return bmp;

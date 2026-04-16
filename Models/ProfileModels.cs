@@ -4,41 +4,42 @@ using System.Collections.Generic;
 namespace WotLK_TalentCalculator_3._3._5.Models
 {
     /// <summary>
-    /// Tek bir isimlendirilmiş build kaydı.
-    /// Hangi sınıfa ait olduğunu (ClassId/ClassName) ve
-    /// tüm sınıfların o andaki rank dizilerini (Builds) saklar.
+    /// A single named build record.
+    /// Stores which class it belongs to (ClassId/ClassName) and 
+    /// the current rank arrays of all classes (Builds).
     /// </summary>
     public class Profile
     {
-        /// <summary>Benzersiz kimlik — silme ve güncelleme için kullanılır.</summary>
+        /// <summary>Unique identifier — used for deletion and updates.</summary>
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        /// <summary>Kullanıcının verdiği ad (örn. "Preg Pala").</summary>
+        /// <summary>Name given by the user.</summary>
         public string Name { get; set; } = "";
 
-        /// <summary>Profil kaydedildiğinde aktif olan sınıfın id'si (örn. "paladin").</summary>
+        /// <summary>ID of the class active when the profile was saved.</summary>
         public string ClassId { get; set; } = "";
 
-        /// <summary>Görüntüleme adı (örn. "Paladin").</summary>
+        /// <summary>Display name.</summary>
         public string ClassName { get; set; } = "";
 
-        /// <summary>Spec dağılımı (örn. "0/28/43").</summary>
+        /// <summary>Spec distribution (e.g., "0/28/43").</summary>
         public string Distribution { get; set; } = "0/0/0";
 
         /// <summary>
-        /// classId → rank dizisi.
-        /// Profil kaydedildiğinde ziyaret edilen tüm sınıfları içerir.
+        /// classId -> rank array.
+        /// Contains all classes visited when the profile was saved.
         /// </summary>
         public Dictionary<string, string> Builds { get; set; } = new();
 
+        // Glyphs
         public Dictionary<string, List<string>> MajorGlyphs { get; set; } = new();
         public Dictionary<string, List<string>> MinorGlyphs { get; set; } = new();
 
-        /// <summary>Kayıt tarihi/saati (gösterim amaçlı).</summary>
+        /// <summary>Creation date/time (for display purposes).</summary>
         public string CreatedAt { get; set; } = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
     }
 
-    /// <summary>Profiles.json'ın kök nesnesi.</summary>
+    /// <summary>Root object for Profiles.json.</summary>
     public class ProfileData
     {
         public List<Profile> Profiles { get; set; } = new();

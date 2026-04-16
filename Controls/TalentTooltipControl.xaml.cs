@@ -16,12 +16,12 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
             int maxRank,
             string[] descriptions,
             bool isActive,
-            int requiredTreePoints, // Satır kilidini açmak için o ağaçta gereken toplam puan (örn. 10)
-            int currentTreePoints,  // O ağaçta şu an harcanmış toplam puan
-            string treeName,        // Ağaç adı (örn. Blood)
-            string attachedTalentName, // Varsa önkoşul talent adı
-            int attachedRequiredRank,  // Varsa önkoşul talent için gereken rank (genelde MaxRank'idir)
-            int attachedCurrentRank,    // Varsa önkoşul talentin şu anki rankı
+            int requiredTreePoints,
+            int currentTreePoints,
+            string treeName,
+            string attachedTalentName,
+            int attachedRequiredRank,
+            int attachedCurrentRank,
             string cost = null,
             string range = null,
             string castTime = null,
@@ -31,11 +31,11 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
             TxtTitle.Text = talentName;
             TxtRank.Text = $"Rank {currentRank}/{maxRank}";
 
-            // -- Kırmızı Uyarıları Sıfırla --
+            // -- Reset Red Warnings --
             TxtRowWarning.Visibility = Visibility.Collapsed;
             TxtReqWarning.Visibility = Visibility.Collapsed;
 
-            // -- Büyü Detayları (Cost, Range, vb.) --
+            // -- Spell Details (Cost, Range, etc.) --
             bool hasMeta = false;
 
             bool hasCost = !string.IsNullOrWhiteSpace(cost);
@@ -43,7 +43,7 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
             bool hasCast = !string.IsNullOrWhiteSpace(castTime);
             bool hasCd = !string.IsNullOrWhiteSpace(cooldown);
 
-            // 1. Satır Mantığı (Cost ve Range)
+            // Row 1 Logic (Cost and Range)
             if (hasCost || hasRange)
             {
                 hasMeta = true;
@@ -60,7 +60,7 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
                     TxtLine1Left.Text = cost;
                     TxtLine1Right.Visibility = Visibility.Collapsed;
                 }
-                else // Sadece menzil varsa sola yapıştır
+                else // If only range exists, align to the left
                 {
                     TxtLine1Left.Text = range;
                     TxtLine1Right.Visibility = Visibility.Collapsed;
@@ -71,7 +71,7 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
                 GridLine1.Visibility = Visibility.Collapsed;
             }
 
-            // 2. Satır Mantığı (Cast Time ve Cooldown)
+            // Row 2 Logic (Cast Time and Cooldown)
             if (hasCast || hasCd)
             {
                 hasMeta = true;
@@ -88,7 +88,7 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
                     TxtLine2Left.Text = castTime;
                     TxtLine2Right.Visibility = Visibility.Collapsed;
                 }
-                else // Sadece cooldown varsa sola yapıştır
+                else // If only cooldown exists, align to the left
                 {
                     TxtLine2Left.Text = cooldown;
                     TxtLine2Right.Visibility = Visibility.Collapsed;
@@ -101,15 +101,15 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
 
             GridSpellMeta.Visibility = hasMeta ? Visibility.Visible : Visibility.Collapsed;
 
-            // -- Kilit Kontrolleri (Kırmızı Yazılar) --
-            // 1. Ağaç puanı (Satır) yetmiyor mu?
+            // -- Lock Controls (Red Warnings) --
+            // 1. Insufficient tree points (Row)?
             if (currentTreePoints < requiredTreePoints)
             {
                 TxtRowWarning.Text = $"Requires {requiredTreePoints} points in {treeName} Talents";
                 TxtRowWarning.Visibility = Visibility.Visible;
             }
 
-            // 2. Önkoşul (Attached) yetenek sağlanmamış mı?
+            // 2. Prerequisite (Attached) talent not met?
             if (!string.IsNullOrEmpty(attachedTalentName) && attachedTalentName != "none" && attachedCurrentRank < attachedRequiredRank)
             {
                 string pText = attachedRequiredRank > 1 ? "points" : "point";
@@ -117,20 +117,20 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
                 TxtReqWarning.Visibility = Visibility.Visible;
             }
 
-            // -- Açıklama Metinleri --
+            // -- Description Texts --
             if (currentRank == 0)
             {
-                // Hiç puan verilmediyse sadece Rank 1 açıklaması (Varsa)
+                // If no points invested, show only Rank 1 description (if available)
                 TxtCurrentDesc.Text = descriptions.Length > 0 ? descriptions[0] : "Açıklama bulunamadı.";
                 TxtNextRankHeader.Visibility = Visibility.Collapsed;
                 TxtNextDesc.Visibility = Visibility.Collapsed;
             }
             else
             {
-                // Puan verildiyse mevcut rank açıklaması
+                // If points invested, show current rank description
                 TxtCurrentDesc.Text = descriptions.Length >= currentRank ? descriptions[currentRank - 1] : "";
 
-                // Sonraki rank varsa göster
+                // Show next rank if it exists
                 if (currentRank < maxRank && descriptions.Length > currentRank)
                 {
                     TxtNextRankHeader.Visibility = Visibility.Visible;
@@ -139,14 +139,14 @@ namespace WotLK_TalentCalculator_3._3._5.Controls
                 }
                 else
                 {
-                    // Max rank'a ulaşıldı
+                    // Max rank reached
                     TxtNextRankHeader.Visibility = Visibility.Collapsed;
                     TxtNextDesc.Visibility = Visibility.Collapsed;
                 }
             }
 
-            // -- Tıklama Uyarıları (Yeşil/Kırmızı) --
-            // Sadece kilitler açıkken (IsActive == true) bunları göster
+            // -- Click Warnings (Green/Red) --
+            // Only show these when locks are open (IsActive == true)
             if (isActive && !isLocked)
             {
                 TxtClickLearn.Visibility = currentRank < maxRank ? Visibility.Visible : Visibility.Collapsed;

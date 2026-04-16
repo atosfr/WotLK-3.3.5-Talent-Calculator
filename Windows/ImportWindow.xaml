@@ -1,7 +1,7 @@
-﻿<Window x:Class="WotLK_TalentCalculator_3._3._5.ExportWindow"
+﻿<Window x:Class="WotLK_TalentCalculator_3._3._5.Windows.ImportWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Export Build" Height="240" Width="750"
+        Title="Import Build" Height="240" Width="750"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         WindowStartupLocation="CenterOwner">
     <Border Background="#FF13132A" BorderBrush="#FF34495E" BorderThickness="2" CornerRadius="4">
@@ -14,9 +14,9 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Export Talent Build" Foreground="#FFFFD100" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+            <TextBlock Text="Import Talent Build" Foreground="#FFFFD100" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
 
-            <!-- Satır 1: Summary (Import için) -->
+            <!-- Row 1: Summary series -->
             <Grid Grid.Row="1" Margin="0,0,0,6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -24,17 +24,18 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Import" Foreground="#FF888899" FontSize="11" VerticalAlignment="Center" Width="50"/>
-                <TextBox x:Name="TxtExportUrl" Grid.Column="1" IsReadOnly="True"
+                <TextBox x:Name="TxtImportSummary" Grid.Column="1"
                          Background="#FF09091A" Foreground="#FFCCCCDD" BorderBrush="#FF2A2A45"
-                         Padding="8,4" FontSize="12" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                         CaretBrush="White" Padding="8,4" FontSize="12"
+                         VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <Border Grid.Column="2" Background="#FF2A2A45" CornerRadius="3" Cursor="Hand"
-                        MouseLeftButtonUp="BtnCopy_Click" Padding="10,0" Tag="summary">
-                    <TextBlock x:Name="TxtCopy" Text="Copy" Foreground="White" FontWeight="Bold"
+                        MouseLeftButtonUp="BtnPasteSummary_Click" Padding="10,0">
+                    <TextBlock x:Name="TxtPasteSummary" Text="Paste" Foreground="White" FontWeight="Bold"
                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Border>
             </Grid>
 
-            <!-- Satır 2: Share Link (Glif destekli) -->
+            <!-- Row 2: Link -->
             <Grid Grid.Row="2" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -42,20 +43,26 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Link" Foreground="#FF888899" FontSize="11" VerticalAlignment="Center" Width="50"/>
-                <TextBox x:Name="TxtShareLink" Grid.Column="1" IsReadOnly="True"
+                <TextBox x:Name="TxtImportLink" Grid.Column="1"
                          Background="#FF09091A" Foreground="#FFCCCCDD" BorderBrush="#FF2A2A45"
-                         Padding="8,4" FontSize="12" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                         CaretBrush="White" Padding="8,4" FontSize="12"
+                         VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <Border Grid.Column="2" Background="#FF2A2A45" CornerRadius="3" Cursor="Hand"
-                        MouseLeftButtonUp="BtnCopyLink_Click" Padding="10,0">
-                    <TextBlock x:Name="TxtCopyLink" Text="Copy" Foreground="White" FontWeight="Bold"
+                        MouseLeftButtonUp="BtnPasteLink_Click" Padding="10,0">
+                    <TextBlock x:Name="TxtPasteLink" Text="Paste" Foreground="White" FontWeight="Bold"
                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Border>
             </Grid>
 
             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="BtnClose" Content="Close" Width="80" Height="28"
-                        Background="#FF2A2A45" Foreground="White" BorderThickness="0" Cursor="Hand"
-                        Click="BtnClose_Click"/>
+                <TextBlock x:Name="TxtError" Foreground="#FFCC3333" FontSize="11"
+                           VerticalAlignment="Center" Margin="0,0,15,0"/>
+                <Button Content="Import" Width="80" Height="28"
+                        Background="#FF2A4A2A" Foreground="#FF20FF20" FontWeight="Bold"
+                        BorderThickness="0" Cursor="Hand" Click="BtnImport_Click"/>
+                <Button Content="Close" Width="80" Height="28" Margin="8,0,0,0"
+                        Background="#FF2A2A45" Foreground="White" BorderThickness="0"
+                        Cursor="Hand" Click="BtnClose_Click"/>
             </StackPanel>
         </Grid>
     </Border>

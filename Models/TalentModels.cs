@@ -41,8 +41,8 @@
         public List<string> ranks { get; set; }
     }
 
-    // Tüm sınıfların açıklamalarını tutan ana nesne
-    // ClassId (örn: "deathknight") -> Talent Adı (örn: "Butchery") -> Açıklamalar
+    // Main object holding descriptions for all classes
+    // ClassId (e.g., "deathknight") -> Talent Name (e.g., "Butchery") -> Descriptions
     public class DescriptionsDb : Dictionary<string, Dictionary<string, TalentDesc>>
     {
     }
@@ -60,7 +60,7 @@
         public string description { get; set; }
         public int itemId { get; set; }
 
-        // Uygulama içinde resmin tam yolunu tutacağımız yardımcı alan
+        // Helper field to store the full path of the image within the application
         public string ImagePath { get; set; }
         public string MediumImagePath { get; set; }
         public string DisplayName
@@ -71,11 +71,11 @@
 
                 if (name.StartsWith("Glyph of the ", StringComparison.OrdinalIgnoreCase))
                 {
-                    return name.Substring(13); // "Glyph of the " = 13 karakter
+                    return name.Substring(13);
                 }
                 else if (name.StartsWith("Glyph of ", StringComparison.OrdinalIgnoreCase))
                 {
-                    return name.Substring(9); // "Glyph of " = 9 karakter
+                    return name.Substring(9);
                 }
 
                 return name;

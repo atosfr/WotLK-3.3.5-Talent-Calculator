@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Text.Json;
 using WotLK_TalentCalculator_3._3._5.Controls;
@@ -8,14 +6,14 @@ using WotLK_TalentCalculator_3._3._5.Controls;
 namespace WotLK_TalentCalculator_3._3._5.Services
 {
     /// <summary>
-    /// Disk üzerindeki kayıt yapısı.
-    /// Her sınıfın build string'i ayrı tutulur; sınıflar arası geçişlerde
-    /// önceki sınıfın puanları kaybolmaz.
+    /// Data structure for disk storage.
+    /// Build strings for each class are stored separately; 
+    /// talent points are preserved when switching between classes.
     /// </summary>
     public class SaveData
     {
         public string LastClassId { get; set; } = "";
-        /// <summary>classId → rank dizisi (örn. "deathknight" → "2305000...")</summary>
+        /// <summary>classId -> rank array (e.g., "deathknight" -> "2305000...")</summary>
         public Dictionary<string, string> Builds { get; set; } = new();
         public Dictionary<string, List<string>> MajorGlyphs { get; set; } = new();
         public Dictionary<string, List<string>> MinorGlyphs { get; set; } = new();
@@ -26,10 +24,10 @@ namespace WotLK_TalentCalculator_3._3._5.Services
     {
         private static readonly JsonSerializerOptions Opts = new() { WriteIndented = true };
 
-        // ── Kaydetme ──────────────────────────────────────────────────────────
+        // ── Saving ──────────────────────────────────────────────────────────
 
         /// <summary>
-        /// Tüm sınıfların güncel build'lerini diske yazar.
+        /// Writes the current builds of all classes to disk.
         /// </summary>
         public static void Save(Dictionary<string, string> builds,
                                 Dictionary<string, List<string>> majorGlyphs,
@@ -45,12 +43,12 @@ namespace WotLK_TalentCalculator_3._3._5.Services
 
             foreach (var kvp in builds)
             {
-                // Eğer içinde '0' haricinde bir sayı varsa talent verilmiş demektir
+                // If it contains characters other than '0', talent points have been invested
                 bool hasTalents = kvp.Value.Any(c => c != '0');
                 bool hasMajor = majorGlyphs.ContainsKey(kvp.Key) && majorGlyphs[kvp.Key].Count > 0;
                 bool hasMinor = minorGlyphs.ContainsKey(kvp.Key) && minorGlyphs[kvp.Key].Count > 0;
 
-                // Sadece dolu olanları VEYA en son açık olan sınıfı kaydet
+                // Save only classes with data OR the last active class
                 if (hasTalents || hasMajor || hasMinor || kvp.Key == lastClassId)
                 {
                     payload.Builds[kvp.Key] = kvp.Value;
@@ -62,12 +60,11 @@ namespace WotLK_TalentCalculator_3._3._5.Services
             File.WriteAllText(AssetManager.SavePath, JsonSerializer.Serialize(payload, Opts));
         }
 
-        // ── Yükleme ───────────────────────────────────────────────────────────
+        // ── Loading ───────────────────────────────────────────────────────────
 
         /// <summary>
-        /// Diskteki kayıt dosyasını okur.
-        /// Eski tek-sınıf formatını ( {ClassId, BuildString} ) otomatik olarak
-        /// yeni formata ( {Builds: {...}} ) taşır.
+        /// Reads the save file from disk.
+        /// Automatically migrates the old single-class format to the new multi-build format.
         /// </summary>
         public static SaveData Load()
         {
@@ -82,16 +79,16 @@ namespace WotLK_TalentCalculator_3._3._5.Services
                 if (doc.RootElement.TryGetProperty("Builds", out _))
                     return JsonSerializer.Deserialize<SaveData>(json, Opts) ?? new SaveData();
             }
-            catch { /* Bozuk dosya — sıfır veriyle başla */ }
+            catch { /* Corrupt file — start with fresh data */ }
 
             return new SaveData();
         }
 
-        // ── Yardımcı ──────────────────────────────────────────────────────────
+        // ── Helpers ──────────────────────────────────────────────────────────
 
         /// <summary>
-        /// Mevcut üç ağacın rank'larını sıralı bir string'e çevirir.
-        /// Sıra JSON'daki talent tanım sırasıyla örtüşür (TalentTreeBuilder garantisi).
+        /// Converts the current ranks of the three trees into a sequential string.
+        /// The order matches the talent definition order in JSON (guaranteed by TalentTreeBuilder).
         /// </summary>
         public static string Snapshot(List<IconControl>[] treeIcons)
         {
