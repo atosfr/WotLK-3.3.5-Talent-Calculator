@@ -1,4 +1,4 @@
-# ⚔️ WotLK 3.3.5a Offline Talent Calculator
+# ⚔️ WotLK 3.3.5 Offline Talent Calculator
 
 Welcome! This project is a standalone, **fully offline desktop application** designed specifically for World of Warcraft: Wrath of the Lich King (Patch 3.3.5a). 
 
