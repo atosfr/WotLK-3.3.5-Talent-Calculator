@@ -300,14 +300,13 @@ namespace WotLK_TalentCalculator_3._3._5.Windows
 
             _talentController.Initialize(treeIcons, arrowMaps, _treePointsBlocks);
 
+            if (_glyphDb.Count > 0)
+                _glyphController.ApplyForClass(cls.id, _glyphDb, _savedMajorGlyphs, _savedMinorGlyphs);
+
             if (_savedBuilds.TryGetValue(cls.id, out var saved) && !string.IsNullOrEmpty(saved))
                 _talentController.ApplyBuildString(saved);
 
             UpdateInfoBar();
-
-            if (_glyphDb.Count > 0)
-                _glyphController.ApplyForClass(cls.id, _glyphDb, _savedMajorGlyphs, _savedMinorGlyphs);
-
             ScheduleSave();
         }
 
@@ -561,9 +560,6 @@ namespace WotLK_TalentCalculator_3._3._5.Windows
             _selectedClass = null; // Bypass early return logic in SelectClass
             SelectClass(cls);
 
-            if (_glyphDb.Count > 0)
-                _glyphController.ApplyForClass(cls.id, _glyphDb, _savedMajorGlyphs, _savedMinorGlyphs);
-
             SnapshotAndSave();
         }
 
@@ -615,9 +611,6 @@ namespace WotLK_TalentCalculator_3._3._5.Windows
 
             _selectedClass = null;
             SelectClass(targetCls);
-
-            if (_glyphDb.Count > 0)
-                _glyphController.ApplyForClass(classId, _glyphDb, _savedMajorGlyphs, _savedMinorGlyphs);
 
             SnapshotAndSave();
 
